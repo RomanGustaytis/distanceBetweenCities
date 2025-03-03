@@ -1,0 +1,56 @@
+h1 {
+    font-size: 2.2rem;
+}
+
+h3 {
+    margin: 0;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+
+.wrapper {
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.fieldBlock {
+    position: relative;
+}
+
+.suggestions {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0 0;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestions li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.suggestionItem:hover,
+.suggestionItem.selected {
+    background-color: #007bff;
+    color: white;
+}
+
+.error {
+    color: red;
+}
