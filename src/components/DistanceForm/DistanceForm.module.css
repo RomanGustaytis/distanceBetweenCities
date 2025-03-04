@@ -1,9 +1,5 @@
-h1 {
+.title {
     font-size: 2.2rem;
-}
-
-h3 {
-    margin: 0;
 }
 
 .container {
@@ -40,7 +36,7 @@ h3 {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.suggestions li {
+.suggestionItem {
     padding: 10px;
     cursor: pointer;
 }
@@ -49,8 +45,4 @@ h3 {
 .suggestionItem.selected {
     background-color: #007bff;
     color: white;
-}
-
-.error {
-    color: red;
 }

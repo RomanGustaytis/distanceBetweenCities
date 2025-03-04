@@ -1,15 +1,9 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
+import { CityInputProps } from "../../../interfaces/interfaces";
 import styles from "../DistanceForm.module.css";
 
-interface CityInputProps {
-    label: string;
-    city: string;
-    setCity: (city: string) => void;
-    fetchSuggestions: (input: string, setSuggestions: (suggestions: string[]) => void) => void;
-}
-
-const CityInput = ({ label, city, setCity, fetchSuggestions }: CityInputProps ) => {
+const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputProps) => {
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
     const [isFocused, setIsFocused] = useState<boolean>(false);
@@ -55,6 +49,8 @@ const CityInput = ({ label, city, setCity, fetchSuggestions }: CityInputProps ) 
                 onKeyDown={handleKeyDown}
                 label={label}
                 fullWidth
+                error={Boolean(error)}
+                helperText={error || ""}
             />
             {isFocused && suggestions.length > 0 && (
                 <ul className={styles.suggestions}>

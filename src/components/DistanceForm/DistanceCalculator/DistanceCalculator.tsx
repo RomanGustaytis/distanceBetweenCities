@@ -1,12 +1,4 @@
-interface Coordinates {
-    city: string;
-    lat: number;
-    lon: number;
-}
-
-interface DistanceCalculatorProps {
-    coordinates: Coordinates[];
-}
+import { Coordinates, DistanceCalculatorProps } from "../../../interfaces/interfaces";
 
 const calculateDistance = (coords1: Coordinates, coords2: Coordinates): number => {
     const toRadians = (deg: number) => (deg * Math.PI) / 180;
@@ -30,7 +22,9 @@ const DistanceCalculator = ({ coordinates }: DistanceCalculatorProps) => {
 
     const distance = calculateDistance(coordinates[0], coordinates[1]);
 
-    return <b>Расстояние между городами по прямой: {distance.toFixed(2)} км</b>;
+    return distance > 0 ? (
+        <b>Расстояние между городами по прямой: {distance.toFixed(2)} км</b>
+    ) : null;
 };
 
 export default DistanceCalculator;

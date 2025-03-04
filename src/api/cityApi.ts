@@ -1,10 +1,5 @@
+import { Coordinates } from "../interfaces/interfaces";
 let timeout: ReturnType<typeof setTimeout>;
-
-interface Coordinates {
-    city: string;
-    lat: number;
-    lon: number;
-}
 
 export const fetchCoordinates = async (city: string): Promise<Coordinates | null> => {
     if (!city.trim()) return null;
