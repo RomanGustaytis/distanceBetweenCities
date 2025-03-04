@@ -16,7 +16,7 @@ const DistanceForm = () => {
 
     useEffect(() => {
         if (!cityFirst.trim() || !citySecond.trim()) {
-            setCoordinates([]); // Очищаем координаты, если хотя бы одно поле пустое
+            setCoordinates([]);
         }
     }, [cityFirst, citySecond]);
 
