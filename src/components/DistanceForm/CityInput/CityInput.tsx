@@ -2,6 +2,9 @@ import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import { CityInputProps } from "../../../interfaces/interfaces";
 import styles from "../DistanceForm.module.css";
+import CancelIcon from '@mui/icons-material/Cancel';
+import * as React from "react";
+import { IconButton } from "@mui/material";
 
 const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputProps) => {
     const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -51,6 +54,22 @@ const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputP
                 fullWidth
                 error={Boolean(error)}
                 helperText={error || ""}
+                slotProps={{
+                    input: {
+                        endAdornment:
+                            <IconButton
+                                onClick={() => setCity("")}
+                                edge="end"
+                                sx={{
+                                    "&:focus": {
+                                        outline: "none",
+                                    },
+                                }}
+                            >
+                                <CancelIcon />
+                            </IconButton>,
+                    },
+                }}
             />
             {isFocused && suggestions.length > 0 && (
                 <ul className={styles.suggestions}>

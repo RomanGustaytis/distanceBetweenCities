@@ -15,3 +15,9 @@ export interface CityInputProps {
     fetchSuggestions: (input: string, setSuggestions: (suggestions: string[]) => void) => void;
     error?: string;
 }
+
+export interface NominatimResponse {
+    lat: string;
+    lon: string;
+    display_name: string;
+}

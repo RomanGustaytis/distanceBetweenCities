@@ -1,4 +1,4 @@
-import { Coordinates } from "../interfaces/interfaces";
+import { Coordinates, NominatimResponse } from "../interfaces/interfaces";
 let timeout: ReturnType<typeof setTimeout>;
 
 export const fetchCoordinates = async (city: string): Promise<Coordinates | null> => {
@@ -15,7 +15,7 @@ export const fetchCoordinates = async (city: string): Promise<Coordinates | null
         if (!response.ok) {
             throw new Error("Ошибка при получении данных о координатах");
         }
-        const data: any[] = await response.json();
+        const data: NominatimResponse[] = await response.json();
 
         return data.length > 0
             ? { city, lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) }
