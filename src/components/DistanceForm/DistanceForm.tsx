@@ -20,7 +20,7 @@ const DistanceForm = () => {
         }
     }, [cityFirst, citySecond]);
 
-    const handleCalculate = async (event: React.FormEvent) => {
+    const handleCoordinates = async (event: React.FormEvent) => {
         event.preventDefault();
 
         setErrorFirst("");
@@ -48,7 +48,7 @@ const DistanceForm = () => {
 
     return (
         <div className={styles.container}>
-            <form className={styles.wrapper} onSubmit={handleCalculate}>
+            <form className={styles.wrapper} onSubmit={handleCoordinates}>
                 <h1 className={styles.title}>Введите названия городов</h1>
 
                 <CityInput

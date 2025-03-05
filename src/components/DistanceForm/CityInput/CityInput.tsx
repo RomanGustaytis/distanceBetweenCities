@@ -1,15 +1,38 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import { CityInputProps } from "../../../interfaces/interfaces";
 import styles from "../DistanceForm.module.css";
-import CancelIcon from '@mui/icons-material/Cancel';
+import CancelIcon from "@mui/icons-material/Cancel";
 import * as React from "react";
 import { IconButton } from "@mui/material";
+import { fetchSuggestions } from "../../../api/cityApi";
 
-const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputProps) => {
+const CityInput = ({ label, city, setCity, error }: CityInputProps) => {
     const [suggestions, setSuggestions] = useState<string[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number>(-1);
     const [isFocused, setIsFocused] = useState<boolean>(false);
+    const [debouncedQuery, setDebouncedQuery] = useState(city);
+
+    useEffect(() => {
+        const handler = setTimeout(() => {
+            setDebouncedQuery(city);
+        }, 500);
+
+        return () => clearTimeout(handler);
+    }, [city]);
+
+    useEffect(() => {
+        const loadSuggestions = async () => {
+            if (debouncedQuery.trim()) {
+                const fetchedSuggestions = await fetchSuggestions(debouncedQuery);
+                setSuggestions(fetchedSuggestions);
+            } else {
+                setSuggestions([]);
+            }
+        };
+
+        loadSuggestions();
+    }, [debouncedQuery]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (suggestions.length === 0) return;
@@ -39,11 +62,7 @@ const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputP
         <div className={styles.fieldBlock}>
             <TextField
                 value={city}
-                onChange={(e) => {
-                    setCity(e.target.value);
-                    fetchSuggestions(e.target.value, setSuggestions);
-                    setSelectedIndex(-1);
-                }}
+                onChange={(e) => setCity(e.target.value)}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => {
                     setIsFocused(false);
@@ -56,7 +75,7 @@ const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputP
                 helperText={error || ""}
                 slotProps={{
                     input: {
-                        endAdornment:
+                        endAdornment: (
                             <IconButton
                                 onClick={() => setCity("")}
                                 edge="end"
@@ -67,7 +86,8 @@ const CityInput = ({ label, city, setCity, fetchSuggestions, error }: CityInputP
                                 }}
                             >
                                 <CancelIcon />
-                            </IconButton>,
+                            </IconButton>
+                        ),
                     },
                 }}
             />

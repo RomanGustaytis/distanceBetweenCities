@@ -1,5 +1,4 @@
 import { Coordinates, NominatimResponse } from "../interfaces/interfaces";
-let timeout: ReturnType<typeof setTimeout>;
 
 export const fetchCoordinates = async (city: string): Promise<Coordinates | null> => {
     if (!city.trim()) return null;
@@ -24,33 +23,24 @@ export const fetchCoordinates = async (city: string): Promise<Coordinates | null
     }
 };
 
-export const fetchSuggestions = (
-    query: string,
-    setSuggestions: (suggestions: string[]) => void
-) => {
-    clearTimeout(timeout);
+export const fetchSuggestions = async (query: string): Promise<string[]> => {
+    if (!query.trim()) return [];
 
-    timeout = setTimeout(async () => {
-        if (!query.trim()) {
-            setSuggestions([]);
-            return;
+    try {
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`
+        );
+        if (!response.ok) {
+            throw new Error("Ошибка при получении подсказок");
         }
+        const data: { display_name: string }[] = await response.json();
 
-        try {
-            const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`
-            );
-            if (!response.ok) {
-                throw new Error("Ошибка при получении подсказок");
-            }
-            const data: { display_name: string }[] = await response.json();
-
-            setSuggestions(data.map((item) => item.display_name));
-        } catch (error) {
-            if (error instanceof Error && error.name !== "AbortError") {
-                console.error("Ошибка при запросе подсказок:", error);
-            }
-            setSuggestions([]);
+        return data.map((item) => item.display_name);
+    } catch (error) {
+        if (error instanceof Error && error.name !== "AbortError") {
+            console.error("Ошибка при запросе подсказок:", error);
         }
-    }, 500);
+        return [];
+    }
 };
+
