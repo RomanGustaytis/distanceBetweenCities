@@ -4,13 +4,9 @@ let timeout: ReturnType<typeof setTimeout>;
 export const fetchCoordinates = async (city: string): Promise<Coordinates | null> => {
     if (!city.trim()) return null;
 
-    const controller = new AbortController();
-    const { signal } = controller;
-
     try {
         const response = await fetch(
             `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`,
-            { signal }
         );
         if (!response.ok) {
             throw new Error("Ошибка при получении данных о координатах");
@@ -40,13 +36,9 @@ export const fetchSuggestions = (
             return;
         }
 
-        const controller = new AbortController();
-        const { signal } = controller;
-
         try {
             const response = await fetch(
-                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`,
-                { signal }
+                `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&addressdetails=1&limit=5`
             );
             if (!response.ok) {
                 throw new Error("Ошибка при получении подсказок");
